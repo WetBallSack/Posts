@@ -90,6 +90,8 @@ export default function App() {
   const [hasSavedGroqKey, setHasSavedGroqKey] = useState(false);
   
   const [logs, setLogs] = useState<any[]>([]);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [logsLimit, setLogsLimit] = useState(20);
   const [nextPostDate, setNextPostDate] = useState<Date | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<string>('--:--');
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
@@ -139,6 +141,27 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
+  const fetchLogsOnly = async (limit: number) => {
+    const { data: signalsLog, count, error: logsError } = await supabase
+      .from('signals_log')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .limit(limit);
+      
+    if (logsError) {
+      console.error("Error fetching logs:", logsError);
+    } else if (signalsLog) {
+      setLogs(signalsLog);
+      if (count !== null) setTotalPosts(count);
+    }
+  };
+
+  useEffect(() => {
+    if (session) {
+      fetchLogsOnly(logsLimit);
+    }
+  }, [logsLimit]);
+
   const fetchData = async () => {
     try {
       const { data: userConfig } = await supabase
@@ -166,18 +189,7 @@ export default function App() {
         }
       }
 
-      const { data: signalsLog, error: logsError } = await supabase
-        .from('signals_log')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(20);
-        
-      if (logsError) {
-        console.error("Error fetching logs:", logsError);
-      } else if (signalsLog) {
-        console.log("Fetched logs:", signalsLog);
-        setLogs(signalsLog);
-      }
+      await fetchLogsOnly(logsLimit);
     } catch (err) {
       console.error("Error fetching data:", err);
     }
@@ -412,6 +424,60 @@ export default function App() {
     }
   };
 
+  const renderModal = () => {
+    const icons = {
+      success: <Check className="w-6 h-6 text-green-500" />,
+      error: <X className="w-6 h-6 text-red-500" />,
+      info: <Info className="w-6 h-6 text-blue-500" />,
+      warning: <AlertCircle className="w-6 h-6 text-amber-500" />
+    };
+
+    return (
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden"
+        >
+          <div className="p-6 flex items-start gap-4">
+            <div className={`p-2 rounded-full ${
+              modal.type === 'success' ? 'bg-green-50' : 
+              modal.type === 'error' ? 'bg-red-50' : 
+              modal.type === 'warning' ? 'bg-amber-50' : 'bg-blue-50'
+            }`}>
+              {icons[modal.type as keyof typeof icons]}
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-serif text-[#2D2B2A] mb-1">{modal.title}</h3>
+              <p className="text-sm text-[#7A7571] leading-relaxed">{modal.message}</p>
+            </div>
+          </div>
+          <div className="p-4 bg-[#FBFBF9] border-t border-[#EAE5DF] flex justify-end gap-3">
+            {modal.onConfirm && (
+              <button 
+                onClick={() => setModal(prev => ({ ...prev, isOpen: false }))}
+                className="px-4 py-2 text-[#7A7571] text-sm font-medium rounded-lg hover:bg-[#EAE5DF] transition-colors"
+              >
+                {t('Cancel')}
+              </button>
+            )}
+            <button 
+              onClick={() => {
+                if (modal.onConfirm) modal.onConfirm();
+                setModal(prev => ({ ...prev, isOpen: false }));
+              }}
+              className={`px-6 py-2 text-white text-sm font-medium rounded-lg transition-colors ${
+                modal.type === 'error' || modal.onConfirm ? 'bg-red-500 hover:bg-red-600' : 'bg-[#2D2B2A] hover:bg-[#1A1918]'
+              }`}
+            >
+              {modal.onConfirm ? (modal.confirmText || t('Confirm')) : t('Close')}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
+
   if (!session) {
     if (legalView) {
       return <LegalPages type={legalView} onBack={() => setLegalView(null)} />;
@@ -438,7 +504,7 @@ export default function App() {
           </button>
           <div className="flex flex-col items-center justify-center gap-4 mb-10">
             <div className="w-12 h-12 bg-[#2D2B2A] rounded-full flex items-center justify-center text-white">
-              <Feather className="w-6 h-6" strokeWidth={1.5} />
+              <Feather className="w-6 h-6" strokeWidth={1.25} />
             </div>
             <h1 className="font-serif text-3xl text-[#2D2B2A]">{t('AutoPost')}</h1>
             <p className="text-[#7A7571] text-sm text-center">{t('Sign in or create an account to manage your automated publishing.')}</p>
@@ -482,62 +548,8 @@ export default function App() {
               {isAuthLoading ? t('Authenticating...') : t('Continue')}
             </button>
           </form>
-          {modal.isOpen && <Modal />}
+          {modal.isOpen && renderModal()}
         </div>
-      </div>
-    );
-  }
-
-  function Modal() {
-    const icons = {
-      success: <Check className="w-6 h-6 text-green-500" />,
-      error: <X className="w-6 h-6 text-red-500" />,
-      info: <Info className="w-6 h-6 text-blue-500" />,
-      warning: <AlertCircle className="w-6 h-6 text-amber-500" />
-    };
-
-    return (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden"
-        >
-          <div className="p-6 flex items-start gap-4">
-            <div className={`p-2 rounded-full ${
-              modal.type === 'success' ? 'bg-green-50' : 
-              modal.type === 'error' ? 'bg-red-50' : 
-              modal.type === 'warning' ? 'bg-amber-50' : 'bg-blue-50'
-            }`}>
-              {icons[modal.type]}
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-serif text-[#2D2B2A] mb-1">{modal.title}</h3>
-              <p className="text-sm text-[#7A7571] leading-relaxed">{modal.message}</p>
-            </div>
-          </div>
-          <div className="p-4 bg-[#FBFBF9] border-t border-[#EAE5DF] flex justify-end gap-3">
-            {modal.onConfirm && (
-              <button 
-                onClick={() => setModal(prev => ({ ...prev, isOpen: false }))}
-                className="px-4 py-2 text-[#7A7571] text-sm font-medium rounded-lg hover:bg-[#EAE5DF] transition-colors"
-              >
-                {t('Cancel')}
-              </button>
-            )}
-            <button 
-              onClick={() => {
-                if (modal.onConfirm) modal.onConfirm();
-                setModal(prev => ({ ...prev, isOpen: false }));
-              }}
-              className={`px-6 py-2 text-white text-sm font-medium rounded-lg transition-colors ${
-                modal.type === 'error' || modal.onConfirm ? 'bg-red-500 hover:bg-red-600' : 'bg-[#2D2B2A] hover:bg-[#1A1918]'
-              }`}
-            >
-              {modal.onConfirm ? (modal.confirmText || t('Confirm')) : t('Close')}
-            </button>
-          </div>
-        </motion.div>
       </div>
     );
   }
@@ -548,7 +560,7 @@ export default function App() {
       <aside className="w-64 border-r border-[#EAE5DF] bg-[#F4F3F0] flex flex-col">
         <div className="p-8 border-b border-[#EAE5DF]">
           <div className="flex items-center gap-3 text-[#2D2B2A]">
-            <Feather className="w-6 h-6" strokeWidth={1.5} />
+            <Feather className="w-6 h-6" strokeWidth={1.25} />
             <span className="font-serif text-2xl tracking-tight">{t('AutoPost')}</span>
           </div>
           <p className="text-xs text-[#7A7571] mt-2 font-medium tracking-wide uppercase">{t('Binance Square')}</p>
@@ -679,7 +691,7 @@ export default function App() {
                     <History className="w-5 h-5" strokeWidth={1.5} />
                     <h3 className="font-medium text-sm">{t('Total Posts')}</h3>
                   </div>
-                  <div className="font-serif text-4xl text-[#2D2B2A]">{logs.length}</div>
+                  <div className="font-serif text-4xl text-[#2D2B2A]">{totalPosts}</div>
                   <p className="text-sm text-[#7A7571] mt-3 flex items-center gap-1.5">
                     <Check className="w-4 h-4" strokeWidth={1.5} /> {t('Lifetime count')}
                   </p>
@@ -864,50 +876,62 @@ export default function App() {
               </header>
 
               <div className="bg-white border border-[#EAE5DF] rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-[#FBFBF9] border-b border-[#EAE5DF] text-[#7A7571]">
-                    <tr>
-                      <th className="px-8 py-5 font-medium">{t('Time')}</th>
-                      <th className="px-8 py-5 font-medium">{t('Type')}</th>
-                      <th className="px-8 py-5 font-medium">{t('Status')}</th>
-                      <th className="px-8 py-5 font-medium">{t('Content Preview')}</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#EAE5DF]">
-                    {logs.length === 0 ? (
+                <div className="max-h-[600px] overflow-y-auto">
+                  <table className="w-full text-left text-sm relative">
+                    <thead className="bg-[#FBFBF9] border-b border-[#EAE5DF] text-[#7A7571] sticky top-0 z-10">
                       <tr>
-                        <td colSpan={4} className="px-8 py-12 text-center text-[#7A7571]">
-                          {t('No logs found yet. Start the engine to generate posts.')}
-                        </td>
+                        <th className="px-8 py-5 font-medium">{t('Time')}</th>
+                        <th className="px-8 py-5 font-medium">{t('Type')}</th>
+                        <th className="px-8 py-5 font-medium">{t('Status')}</th>
+                        <th className="px-8 py-5 font-medium">{t('Content Preview')}</th>
                       </tr>
-                    ) : logs.map((log, i) => (
-                      <tr key={i} className="hover:bg-[#FBFBF9] transition-colors">
-                        <td className="px-8 py-5 text-[#7A7571]">
-                          {new Date(log.created_at).toLocaleString()}
-                        </td>
-                        <td className="px-8 py-5">
-                          <span className="inline-flex items-center justify-center bg-[#F4F3F0] border border-[#EAE5DF] text-[#2D2B2A] px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
-                            {log.language} {log.post_type}
-                          </span>
-                        </td>
-                        <td className="px-8 py-5">
-                          {log.status === 'success' ? (
-                            <span className="flex items-center gap-2 text-[#4A5D4E]">
-                              <Check className="w-4 h-4" strokeWidth={1.5} /> {t('Success')}
+                    </thead>
+                    <tbody className="divide-y divide-[#EAE5DF]">
+                      {logs.length === 0 ? (
+                        <tr>
+                          <td colSpan={4} className="px-8 py-12 text-center text-[#7A7571]">
+                            {t('No logs found yet. Start the engine to generate posts.')}
+                          </td>
+                        </tr>
+                      ) : logs.map((log, i) => (
+                        <tr key={i} className="hover:bg-[#FBFBF9] transition-colors">
+                          <td className="px-8 py-5 text-[#7A7571]">
+                            {new Date(log.created_at).toLocaleString()}
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className="inline-flex items-center justify-center bg-[#F4F3F0] border border-[#EAE5DF] text-[#2D2B2A] px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
+                              {log.language} {log.post_type}
                             </span>
-                          ) : (
-                            <span className="flex items-center gap-2 text-[#A35D52]" title={log.error_message}>
-                              <AlertTriangle className="w-4 h-4" strokeWidth={1.5} /> {t('Failed')}
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-8 py-5 text-[#2D2B2A] truncate max-w-xs">
-                          {log.content.substring(0, 50)}...
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </td>
+                          <td className="px-8 py-5">
+                            {log.status === 'success' ? (
+                              <span className="flex items-center gap-2 text-[#4A5D4E]">
+                                <Check className="w-4 h-4" strokeWidth={1.5} /> {t('Success')}
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-2 text-[#A35D52]" title={log.error_message}>
+                                <AlertTriangle className="w-4 h-4" strokeWidth={1.5} /> {t('Failed')}
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-8 py-5 text-[#2D2B2A] truncate max-w-xs">
+                            {log.content.substring(0, 50)}...
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {logs.length < totalPosts && (
+                  <div className="p-4 border-t border-[#EAE5DF] bg-[#FBFBF9] flex justify-center">
+                    <button 
+                      onClick={() => setLogsLimit(prev => prev + 20)}
+                      className="text-sm font-medium text-[#2D2B2A] hover:text-[#7A7571] transition-colors px-4 py-2"
+                    >
+                      {t('Load More')}
+                    </button>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}
@@ -1026,7 +1050,7 @@ export default function App() {
                   <div className="font-serif text-3xl text-[#2D2B2A] capitalize flex items-center gap-3">
                     {config.subscriptionTier === 'whale' ? <Crown className="w-6 h-6 text-[#D4AF37]" /> : 
                      config.subscriptionTier === 'pro' ? <Zap className="w-6 h-6 text-[#2D2B2A]" /> : 
-                     <Feather className="w-6 h-6 text-[#7A7571]" />}
+                     <Feather className="w-6 h-6 text-[#7A7571]" strokeWidth={1.25} />}
                     {t(config.subscriptionTier.charAt(0).toUpperCase() + config.subscriptionTier.slice(1))} {t('Tier')}
                   </div>
                 </div>
@@ -1147,7 +1171,7 @@ export default function App() {
           </AnimatePresence>
         </div>
       </main>
-      {modal.isOpen && <Modal />}
+      {modal.isOpen && renderModal()}
     </div>
   );
 }

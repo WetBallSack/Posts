@@ -38,7 +38,7 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
         <div className="max-w-screen-xl mx-auto px-10 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[#1A1918] rounded-sm flex items-center justify-center text-white">
-              <Feather className="w-4 h-4" strokeWidth={2.5} />
+              <Feather className="w-4 h-4" strokeWidth={1.25} />
             </div>
             <span className="font-serif text-xl tracking-tight font-medium">Sato</span>
           </div>
@@ -334,6 +334,41 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
                 {t('Intelligent memory ensures you never repeat the same coin or setup type too frequently.')}
               </p>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="py-24 lg:py-56 px-6 lg:px-10 border-t border-[#EAE5DF] bg-white">
+        <div className="max-w-screen-xl mx-auto">
+          <div className="mb-20 lg:mb-32">
+            <span className="text-[10px] font-bold text-[#7A7571] uppercase tracking-[0.5em] mb-8 lg:mb-10 block">{t('The Process')}</span>
+            <h2 className="text-5xl lg:text-7xl font-serif font-medium text-[#1A1918] tracking-tight max-w-3xl">{t('Set it once. Dominate forever.')}</h2>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-12 lg:gap-8">
+            {[
+              { step: '01', title: 'Connect', desc: 'Link your Binance Square account via API keys securely stored in our Vault.' },
+              { step: '02', title: 'Configure', desc: 'Select your AI persona, trading style, and preferred posting frequency.' },
+              { step: '03', title: 'Analyze', desc: 'Sato scans the market, generating charts and insights matching your persona.' },
+              { step: '04', title: 'Publish', desc: 'Content is automatically formatted and published to your Binance Square feed.' }
+            ].map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="relative"
+              >
+                <div className="text-6xl font-serif text-[#EAE5DF] mb-6">{item.step}</div>
+                <h3 className="text-xl font-serif font-medium text-[#1A1918] mb-4">{t(item.title)}</h3>
+                <p className="text-sm text-[#7A7571] leading-relaxed font-light">{t(item.desc)}</p>
+                {i < 3 && (
+                  <div className="hidden md:block absolute top-8 right-0 w-full h-[1px] bg-[#EAE5DF] -z-10 translate-x-1/2" />
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
