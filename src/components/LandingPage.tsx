@@ -107,15 +107,41 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
                   {t('Start Automating for Free')}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <div className="flex items-center gap-5 py-5">
+                <div className="flex items-center gap-6 py-5">
                   <div className="flex -space-x-3">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="w-10 h-10 rounded-sm border border-[#EAE5DF] bg-white shadow-sm" />
+                    {[
+                      "https://picsum.photos/seed/kol1/100/100",
+                      "https://picsum.photos/seed/kol2/100/100",
+                      "https://picsum.photos/seed/kol3/100/100",
+                      "https://picsum.photos/seed/kol4/100/100"
+                    ].map((src, i) => (
+                      <motion.div 
+                        key={i} 
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 + (i * 0.1) }}
+                        className="w-11 h-11 rounded-sm border-2 border-[#FBFBF9] bg-white shadow-sm overflow-hidden"
+                      >
+                        <img 
+                          src={src} 
+                          alt={`KOL ${i + 1}`} 
+                          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                          referrerPolicy="no-referrer"
+                        />
+                      </motion.div>
                     ))}
+                    <div className="w-11 h-11 rounded-sm border-2 border-[#FBFBF9] bg-[#1A1918] flex items-center justify-center text-[10px] font-bold text-white shadow-sm z-10">
+                      +500
+                    </div>
                   </div>
-                  <span className="text-[9px] font-bold text-[#7A7571] tracking-[0.3em] uppercase">
-                    {t('Trusted by 500+ KOLs')}
-                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold text-[#1A1918] tracking-[0.2em] uppercase mb-0.5">
+                      {t('Trusted by the Elite')}
+                    </span>
+                    <span className="text-[9px] font-medium text-[#7A7571] uppercase tracking-[0.1em]">
+                      {t('Top Binance Square Creators')}
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -345,6 +371,8 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
                 <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('30m minimum interval')}</li>
                 <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('All Specialized Personas')}</li>
                 <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('Dynamic 48h Charts')}</li>
+                <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('No watermark')}</li>
+                <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('Auto-cycle personas')}</li>
               </ul>
               <button onClick={onGetStarted} className="w-full py-4 lg:py-5 rounded-sm bg-[#1A1918] text-white text-[11px] font-bold hover:bg-black transition-all uppercase tracking-widest shadow-lg">
                 {t('Upgrade to Pro')}
@@ -359,6 +387,8 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
                 <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('5m blazing-fast intervals')}</li>
                 <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('Custom AI Prompts')}</li>
                 <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('Priority Posting Queue')}</li>
+                <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('No watermark')}</li>
+                <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('Auto-cycle personas')}</li>
               </ul>
               <button onClick={onGetStarted} className="w-full py-4 lg:py-5 rounded-sm border border-[#1A1918] text-[11px] font-bold hover:bg-[#1A1918] hover:text-white transition-all uppercase tracking-widest">
                 {t('Become a Whale')}

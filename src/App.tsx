@@ -764,6 +764,9 @@ export default function App() {
                         <option value="analytical">{t('Data & Charts Focused')}</option>
                         <option value="news">{t('News Broadcaster')}</option>
                       </optgroup>
+                      <optgroup label={t('Premium Features')} disabled={config.subscriptionTier === 'free'}>
+                        <option value="auto_cycle">{t('Auto-Cycle Personas')}</option>
+                      </optgroup>
                       <optgroup label={t('Specialized Traders')} disabled={config.subscriptionTier === 'free'}>
                         <option value="whale_tracker">{t('Whale & Smart Money Tracker')}</option>
                         <option value="sniper">{t('Low-TF Scalper / Sniper')}</option>
@@ -883,7 +886,7 @@ export default function App() {
                           {new Date(log.created_at).toLocaleString()}
                         </td>
                         <td className="px-8 py-5">
-                          <span className="bg-[#F4F3F0] text-[#2D2B2A] px-3 py-1.5 rounded-md text-xs font-medium uppercase tracking-wider">
+                          <span className="inline-flex items-center justify-center bg-[#F4F3F0] border border-[#EAE5DF] text-[#2D2B2A] px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
                             {log.language} {log.post_type}
                           </span>
                         </td>
