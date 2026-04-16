@@ -81,6 +81,9 @@ export default function App() {
   const [config, setConfig] = useState({
     apiKey: '',
     groqApiKey: '',
+    geminiApiKey: '',
+    openaiApiKey: '',
+    aiProvider: 'groq',
     persona: 'degen',
     interval: 120,
     subscriptionTier: 'free',
@@ -88,6 +91,8 @@ export default function App() {
   });
   const [hasSavedKey, setHasSavedKey] = useState(false);
   const [hasSavedGroqKey, setHasSavedGroqKey] = useState(false);
+  const [hasSavedGeminiKey, setHasSavedGeminiKey] = useState(false);
+  const [hasSavedOpenAIKey, setHasSavedOpenAIKey] = useState(false);
   
   const [logs, setLogs] = useState<any[]>([]);
   const [totalPosts, setTotalPosts] = useState(0);
@@ -176,11 +181,16 @@ export default function App() {
           interval: userConfig.post_interval_minutes,
           subscriptionTier: userConfig.subscription_tier || 'free',
           customPrompt: userConfig.custom_prompt || '',
+          aiProvider: userConfig.ai_provider || 'groq',
           apiKey: '', // Clear input so it shows placeholder instead of actual key
-          groqApiKey: ''
+          groqApiKey: '',
+          geminiApiKey: '',
+          openaiApiKey: ''
         }));
         setHasSavedKey(!!userConfig.binance_api_key_id);
         setHasSavedGroqKey(!!userConfig.groq_api_key_id);
+        setHasSavedGeminiKey(!!userConfig.gemini_api_key_id);
+        setHasSavedOpenAIKey(!!userConfig.openai_api_key_id);
         setIsActive(userConfig.is_active);
         if (userConfig.next_post_time) {
           setNextPostDate(new Date(userConfig.next_post_time));
@@ -272,10 +282,18 @@ export default function App() {
       return;
     }
 
+    if (config.subscriptionTier === 'free' && config.aiProvider !== 'groq') {
+      showAlert(t('Access Denied'), t('Gemini and GPT-5.1 models are only available on Pro or Whale tiers.'), 'warning');
+      return;
+    }
+
     setIsSaving(true);
     const { error } = await supabase.rpc('update_user_config', {
       p_binance_api_key: config.apiKey || null,
       p_groq_api_key: config.groqApiKey || null,
+      p_gemini_api_key: config.geminiApiKey || null,
+      p_openai_api_key: config.openaiApiKey || null,
+      p_ai_provider: config.aiProvider,
       p_persona: config.persona,
       p_interval: config.interval,
       p_custom_prompt: config.customPrompt || null
@@ -316,10 +334,26 @@ export default function App() {
   };
 
   const handleTestPost = async () => {
-    if ((!hasSavedKey && !config.apiKey) || (!hasSavedGroqKey && !config.groqApiKey)) {
-      showAlert(t('Warning'), t('Please save both your Binance API Key and Groq API Key in the Configuration tab first.'), 'warning');
+    if (!hasSavedKey && !config.apiKey) {
+      showAlert(t('Warning'), t('Please save your Binance API Key first.'), 'warning');
       return;
     }
+    
+    if (config.aiProvider === 'groq' && !hasSavedGroqKey && !config.groqApiKey) {
+      showAlert(t('Warning'), t('Please save your Groq API Key first.'), 'warning');
+      return;
+    }
+
+    if (config.aiProvider.startsWith('gemini') && !hasSavedGeminiKey && !config.geminiApiKey) {
+      showAlert(t('Warning'), t('Please save your Gemini API Key first.'), 'warning');
+      return;
+    }
+
+    if (config.aiProvider === 'gpt-5.1' && !hasSavedOpenAIKey && !config.openaiApiKey) {
+      showAlert(t('Warning'), t('Please save your GPT-5.1 API Key first.'), 'warning');
+      return;
+    }
+
     setIsTestingPost(true);
     try {
       const { data, error } = await supabase.functions.invoke('auto-poster', {
@@ -733,6 +767,20 @@ export default function App() {
                 </div>
                 <div className="p-8 space-y-6">
                   <div>
+                    <label className="block text-sm font-medium text-[#7A7571] mb-2">{t('AI Model Provider')}</label>
+                    <select 
+                      value={config.aiProvider}
+                      onChange={e => setConfig({...config, aiProvider: e.target.value})}
+                      className="w-full bg-[#FBFBF9] border border-[#EAE5DF] rounded-lg px-4 py-3.5 text-[#2D2B2A] focus:outline-none focus:border-[#2D2B2A] focus:ring-1 focus:ring-[#2D2B2A] transition-all appearance-none"
+                    >
+                      <option value="groq">Groq (Llama 3)</option>
+                      <option value="gemini-2.0-pro" disabled={config.subscriptionTier === 'free'}>Gemini 2.0 Pro (Pro/Whale)</option>
+                      <option value="gemini-2.5-pro" disabled={config.subscriptionTier === 'free'}>Gemini 2.5 Pro (Pro/Whale)</option>
+                      <option value="gemini-3.0-pro" disabled={config.subscriptionTier === 'free'}>Gemini 3.0 Pro (Pro/Whale)</option>
+                      <option value="gpt-5.1" disabled={config.subscriptionTier === 'free'}>GPT-5.1 (Pro/Whale)</option>
+                    </select>
+                  </div>
+                  <div>
                     <label className="block text-sm font-medium text-[#7A7571] mb-2">{t('Binance Square API Key')}</label>
                     <input 
                       type="password" 
@@ -742,16 +790,42 @@ export default function App() {
                       className="w-full bg-[#FBFBF9] border border-[#EAE5DF] rounded-lg px-4 py-3.5 text-[#2D2B2A] focus:outline-none focus:border-[#2D2B2A] focus:ring-1 focus:ring-[#2D2B2A] transition-all"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-[#7A7571] mb-2">{t('Groq API Key')}</label>
-                    <input 
-                      type="password" 
-                      placeholder={hasSavedGroqKey ? `•••••••••••••••• (${t('Key securely stored')})` : t('Enter new Groq API Key (gsk_...)')}
-                      value={config.groqApiKey}
-                      onChange={e => setConfig({...config, groqApiKey: e.target.value})}
-                      className="w-full bg-[#FBFBF9] border border-[#EAE5DF] rounded-lg px-4 py-3.5 text-[#2D2B2A] focus:outline-none focus:border-[#2D2B2A] focus:ring-1 focus:ring-[#2D2B2A] transition-all"
-                    />
-                  </div>
+                  {config.aiProvider === 'groq' && (
+                    <div>
+                      <label className="block text-sm font-medium text-[#7A7571] mb-2">{t('Groq API Key')}</label>
+                      <input 
+                        type="password" 
+                        placeholder={hasSavedGroqKey ? `•••••••••••••••• (${t('Key securely stored')})` : t('Enter new Groq API Key (gsk_...)')}
+                        value={config.groqApiKey}
+                        onChange={e => setConfig({...config, groqApiKey: e.target.value})}
+                        className="w-full bg-[#FBFBF9] border border-[#EAE5DF] rounded-lg px-4 py-3.5 text-[#2D2B2A] focus:outline-none focus:border-[#2D2B2A] focus:ring-1 focus:ring-[#2D2B2A] transition-all"
+                      />
+                    </div>
+                  )}
+                  {config.aiProvider.startsWith('gemini') && (
+                    <div>
+                      <label className="block text-sm font-medium text-[#7A7571] mb-2">{t('Gemini API Key')}</label>
+                      <input 
+                        type="password" 
+                        placeholder={hasSavedGeminiKey ? `•••••••••••••••• (${t('Key securely stored')})` : t('Enter new Gemini API Key')}
+                        value={config.geminiApiKey}
+                        onChange={e => setConfig({...config, geminiApiKey: e.target.value})}
+                        className="w-full bg-[#FBFBF9] border border-[#EAE5DF] rounded-lg px-4 py-3.5 text-[#2D2B2A] focus:outline-none focus:border-[#2D2B2A] focus:ring-1 focus:ring-[#2D2B2A] transition-all"
+                      />
+                    </div>
+                  )}
+                  {config.aiProvider === 'gpt-5.1' && (
+                    <div>
+                      <label className="block text-sm font-medium text-[#7A7571] mb-2">{t('GPT-5.1 API Key')}</label>
+                      <input 
+                        type="password" 
+                        placeholder={hasSavedOpenAIKey ? `•••••••••••••••• (${t('Key securely stored')})` : t('Enter new OpenAI API Key (sk-...)')}
+                        value={config.openaiApiKey}
+                        onChange={e => setConfig({...config, openaiApiKey: e.target.value})}
+                        className="w-full bg-[#FBFBF9] border border-[#EAE5DF] rounded-lg px-4 py-3.5 text-[#2D2B2A] focus:outline-none focus:border-[#2D2B2A] focus:ring-1 focus:ring-[#2D2B2A] transition-all"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1116,6 +1190,10 @@ export default function App() {
                     </li>
                     <li className="flex items-start gap-3 text-sm text-[#7A7571]">
                       <Check className="w-4 h-4 text-[#2D2B2A] shrink-0 mt-0.5" />
+                      <span>{t('GPT-5.1 & Gemini 2/3 Selectable')}</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-[#7A7571]">
+                      <Check className="w-4 h-4 text-[#2D2B2A] shrink-0 mt-0.5" />
                       <span>{t('All Specialized Personas')}</span>
                     </li>
                     <li className="flex items-start gap-3 text-sm text-[#7A7571]">
@@ -1147,6 +1225,10 @@ export default function App() {
                     <li className="flex items-start gap-3 text-sm text-[#7A7571]">
                       <Check className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                       <span className="font-medium text-[#2D2B2A]">{t('5m minimum post interval')}</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-[#7A7571]">
+                      <Check className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                      <span>{t('GPT-5.1 & Gemini 2/3 Selectable')}</span>
                     </li>
                     <li className="flex items-start gap-3 text-sm text-[#7A7571]">
                       <Check className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />

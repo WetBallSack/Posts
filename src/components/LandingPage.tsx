@@ -91,7 +91,7 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-[#F3BA2F]/5 border border-[#F3BA2F]/20 text-[#1A1918] text-[9px] font-bold uppercase tracking-[0.25em] mb-12">
                 <Zap className="w-3 h-3 fill-[#F3BA2F] text-[#F3BA2F]" />
-                {t('Now with Llama 3.3 Intelligence')}
+                {t('Now with GPT-5.1, Gemini 2.5/3 Pro & Llama 3.3')}
               </div>
               <h1 className="text-7xl md:text-8xl font-serif font-medium leading-[0.9] mb-12 tracking-tighter text-[#1A1918]">
                 {t('Dominate Binance Square While You Sleep.')}
@@ -404,6 +404,7 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
               <div className="text-5xl lg:text-6xl font-serif font-medium text-[#1A1918] mb-10 lg:mb-14">$15</div>
               <ul className="space-y-4 lg:space-y-6 mb-12 lg:mb-20 flex-1">
                 <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('30m minimum interval')}</li>
+                <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('GPT-5.1 & Gemini 2/3 Selectable')}</li>
                 <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('All Specialized Personas')}</li>
                 <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('Dynamic 48h Charts')}</li>
                 <li className="text-sm text-[#1A1918] flex items-center gap-4 font-bold"><Check className="w-3.5 h-3.5 text-[#F3BA2F]" /> {t('No watermark')}</li>
@@ -420,6 +421,7 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
               <div className="text-5xl lg:text-6xl font-serif font-medium text-[#1A1918] mb-10 lg:mb-14">$49</div>
               <ul className="space-y-4 lg:space-y-6 mb-12 lg:mb-20 flex-1">
                 <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('5m blazing-fast intervals')}</li>
+                <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('GPT-5.1 & Gemini 2/3 Selectable')}</li>
                 <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('Custom AI Prompts')}</li>
                 <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('Priority Posting Queue')}</li>
                 <li className="text-sm text-[#7A7571] flex items-center gap-4"><Check className="w-3.5 h-3.5" /> {t('No watermark')}</li>
