@@ -85,7 +85,7 @@ export default function App() {
     openaiApiKey: '',
     aiProvider: 'groq',
     persona: 'degen',
-    interval: 120,
+    interval: 1440,
     subscriptionTier: 'free',
     customPrompt: ''
   });
@@ -262,7 +262,7 @@ export default function App() {
 
   const handleSave = async () => {
     // Client-side validation
-    let minInterval = 120;
+    let minInterval = 1440;
     if (config.subscriptionTier === 'whale') minInterval = 5;
     else if (config.subscriptionTier === 'pro') minInterval = 30;
 
@@ -304,7 +304,7 @@ export default function App() {
       
       // If the interval was reduced, we should update the local nextPostDate
       // to reflect the change immediately in the UI.
-      if (config.interval < (logs[0]?.interval || 120)) {
+      if (config.interval < (logs[0]?.interval || 1440)) {
         const newNextTime = new Date(Date.now() + config.interval * 60000);
         setNextPostDate(newNextTime);
       }
@@ -898,12 +898,12 @@ export default function App() {
                     <label className="block text-sm font-medium text-[#7A7571] mb-2">
                       {t('Post Interval (Minutes)')} 
                       <span className="text-xs ml-2 opacity-70">
-                        ({t('Min')}: {config.subscriptionTier === 'whale' ? 5 : config.subscriptionTier === 'pro' ? 30 : 120})
+                        ({t('Min')}: {config.subscriptionTier === 'whale' ? 5 : config.subscriptionTier === 'pro' ? 30 : 1440})
                       </span>
                     </label>
                     <input 
                       type="number" 
-                      min={config.subscriptionTier === 'whale' ? 5 : config.subscriptionTier === 'pro' ? 30 : 120}
+                      min={config.subscriptionTier === 'whale' ? 5 : config.subscriptionTier === 'pro' ? 30 : 1440}
                       value={config.interval}
                       onChange={e => setConfig({...config, interval: parseInt(e.target.value)})}
                       className="w-full bg-[#FBFBF9] border border-[#EAE5DF] rounded-lg px-4 py-3.5 text-[#2D2B2A] focus:outline-none focus:border-[#2D2B2A] focus:ring-1 focus:ring-[#2D2B2A] transition-all"
@@ -1148,7 +1148,7 @@ export default function App() {
                   <ul className="space-y-4 mb-8 flex-1">
                     <li className="flex items-start gap-3 text-sm text-[#7A7571]">
                       <Check className="w-4 h-4 text-[#2D2B2A] shrink-0 mt-0.5" />
-                      <span>{t('120m minimum post interval')}</span>
+                      <span>{t('24h minimum post interval')}</span>
                     </li>
                     <li className="flex items-start gap-3 text-sm text-[#7A7571]">
                       <Check className="w-4 h-4 text-[#2D2B2A] shrink-0 mt-0.5" />
