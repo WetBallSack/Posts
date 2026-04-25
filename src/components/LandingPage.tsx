@@ -78,7 +78,7 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
       </nav>
 
       {/* Hero Section - Liquid Wave Background */}
-      <section className="relative pt-32 lg:pt-56 pb-24 lg:pb-40 px-6 lg:px-10 overflow-hidden border-b border-white/5">
+      <section className="relative pt-24 md:pt-32 lg:pt-40 pb-16 lg:pb-24 px-6 lg:px-10 overflow-hidden border-b border-white/5 min-h-[100dvh] lg:min-h-[90vh] flex flex-col justify-center">
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
           {/* Heavy vignettes to fade the video into the background, making it natural and less dominant */}
           <div className="absolute inset-0 bg-[#0A0A0A]/60 z-10" />
@@ -94,27 +94,27 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
           />
         </div>
         
-        <div className="max-w-screen-xl mx-auto relative z-20">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="max-w-screen-xl mx-auto relative z-20 w-full mt-10 md:mt-0">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] mb-8 sm:mb-12 backdrop-blur-sm max-w-full overflow-hidden text-center sm:text-left shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] mb-6 sm:mb-12 backdrop-blur-sm max-w-full overflow-hidden text-center sm:text-left shadow-sm">
                 <Zap className="w-3 h-3 fill-emerald-500 text-emerald-500 shrink-0" />
                 <span className="truncate">{t('Now with GPT-5.1, Gemini 2.5/3 Pro')}</span>
               </div>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-medium leading-[0.95] mb-8 sm:mb-12 tracking-tight sm:tracking-tighter text-zinc-100">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-medium leading-[0.95] mb-6 sm:mb-10 tracking-tight sm:tracking-tighter text-zinc-100">
                 {t('Dominate Binance Square While You Sleep.')}
               </h1>
-              <p className="text-lg sm:text-xl md:text-2xl text-zinc-400 max-w-xl mb-12 sm:mb-16 leading-relaxed font-light tracking-tight border-l-2 border-emerald-900/40 pl-6 sm:pl-8">
+              <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-xl mb-8 sm:mb-12 leading-relaxed font-light tracking-tight border-l-2 border-emerald-900/40 pl-5 sm:pl-8">
                 {t('The most advanced, human-like automated publishing engine built specifically for crypto KOLs. Real-time signals, dynamic charts, and global macro analysis.')}
               </p>
-              <div className="flex flex-col sm:flex-row items-center lg:items-start gap-6 sm:gap-10 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4 sm:gap-6 w-full sm:w-auto">
                 <button 
                   onClick={onGetStarted}
-                  className="group relative px-8 sm:px-10 py-5 sm:py-6 overflow-hidden border border-zinc-500/30 text-zinc-300 hover:text-white transition-colors duration-700 bg-[#0A0A0A]/40 backdrop-blur-sm shadow-2xl w-full sm:w-auto flex justify-center"
+                  className="group relative px-6 sm:px-10 py-4 sm:py-6 overflow-hidden border border-zinc-500/30 text-zinc-300 hover:text-white transition-colors duration-700 bg-[#0A0A0A]/40 backdrop-blur-sm shadow-2xl w-full sm:w-auto flex justify-center"
                 >
                   <div className="absolute inset-0 bg-zinc-100 translate-y-[101%] group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]" />
                   <div className="relative flex items-center gap-4 sm:gap-8 font-serif uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[10px] sm:text-xs font-medium group-hover:text-[#0A0A0A] transition-colors duration-700 z-10 whitespace-nowrap">
