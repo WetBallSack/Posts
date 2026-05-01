@@ -191,7 +191,24 @@ const resources = {
       "Back": "Back",
       "Login": "Login",
       "Get Started": "Get Started",
-      "Post successfully published": "Post successfully published"
+      "Post successfully published": "Post successfully published",
+      "Core Capabilities Matrix": "Core Capabilities Matrix",
+      "Feature": "Feature",
+      "Traditional Tools": "Traditional Tools",
+      "Sato Engine": "Sato Engine",
+      "Market Analysis": "Market Analysis",
+      "Manual Reading": "Manual Reading",
+      "Real-time API Ingestion": "Real-time API Ingestion",
+      "Content Generation": "Content Generation",
+      "Basic Templates": "Basic Templates",
+      "Llama 3.3 / Gemini Personas": "Llama 3.3 / Gemini Personas",
+      "Language Nuance": "Language Nuance",
+      "Basic Translation": "Basic Translation",
+      "Native Crypto Slang (EN/CN)": "Native Crypto Slang (EN/CN)",
+      "Visual Output": "Visual Output",
+      "Text Only": "Text Only",
+      "Dynamic Pricing Charts": "Dynamic Pricing Charts",
+      "Supported Ecosystems": "Supported Ecosystems"
     }
   },
   zh: {
@@ -383,7 +400,24 @@ const resources = {
       "Back": "返回",
       "Login": "登录",
       "Get Started": "立即开始",
-      "Post successfully published": "发帖成功发布"
+      "Post successfully published": "发帖成功发布",
+      "Core Capabilities Matrix": "核心能力矩阵",
+      "Feature": "功能",
+      "Traditional Tools": "传统工具",
+      "Sato Engine": "Sato 引擎",
+      "Market Analysis": "市场分析",
+      "Manual Reading": "人工阅盘",
+      "Real-time API Ingestion": "实时 API 接入",
+      "Content Generation": "内容生成",
+      "Basic Templates": "基础模板",
+      "Llama 3.3 / Gemini Personas": "Llama 3.3 / Gemini 人设",
+      "Language Nuance": "语言细节",
+      "Basic Translation": "基础机器翻译",
+      "Native Crypto Slang (EN/CN)": "地道加密圈俚语 (中/英)",
+      "Visual Output": "视觉输出",
+      "Text Only": "纯文本",
+      "Dynamic Pricing Charts": "动态价格图表",
+      "Supported Ecosystems": "支持的生态系统"
     }
   }
 };

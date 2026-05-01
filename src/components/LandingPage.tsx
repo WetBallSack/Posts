@@ -11,7 +11,13 @@ import {
   BarChart3,
   Bot,
   Minus,
-  Globe
+  Globe,
+  Database,
+  Cpu,
+  Sparkles,
+  MessageSquare,
+  Share2,
+  BrainCircuit
 } from 'lucide-react';
 import HlsVideo from './HlsVideo';
 
@@ -86,10 +92,10 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A] z-10" />
           <HlsVideo 
             src="https://stream.mux.com/8wrHPCX2dC3msyYU9ObwqNdm00u3ViXvOSHUMRYSEe5Q.m3u8"
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
+            autoPlay={true} 
+            loop={true} 
+            muted={true} 
+            playsInline={true} 
             className="absolute inset-0 w-full lg:w-[120%] h-full lg:h-[120%] lg:-left-[10%] lg:-top-[10%] object-cover object-center opacity-20"
           />
         </div>
@@ -109,7 +115,7 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
                 {t('Dominate Binance Square While You Sleep.')}
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-xl mb-8 sm:mb-12 leading-relaxed font-light tracking-tight border-l-2 border-emerald-900/40 pl-5 sm:pl-8">
-                {t('The most advanced, human-like automated publishing engine built specifically for crypto KOLs. Real-time signals, dynamic charts, and global macro analysis.')}
+                {t('The AI-powered publishing engine for crypto KOLs. Automate your Binance Square presence with real-time market data, custom personas, and intelligent continuous scheduling.')}
               </p>
               <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4 sm:gap-6 w-full sm:w-auto">
                 <button 
@@ -260,10 +266,10 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#0A0A0A_80%)] z-10" />
           <HlsVideo 
             src="https://stream.mux.com/Kec29dVyJgiPdtWaQtPuEiiGHkJIYQAVUJcNiIHUYeo.m3u8"
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
+            autoPlay={true} 
+            loop={true} 
+            muted={true} 
+            playsInline={true} 
             className="absolute inset-0 w-full lg:w-[120%] h-full lg:h-[120%] lg:-left-[10%] lg:-top-[10%] object-cover object-center mix-blend-screen blur-[2px]"
           />
         </div>
@@ -353,10 +359,10 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
           <div className="absolute inset-0 bg-[#0A0A0A]/50 z-10" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#0A0A0A_60%)] z-10" />
           <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
+            autoPlay={true} 
+            loop={true} 
+            muted={true} 
+            playsInline={true} 
             className="absolute inset-0 w-full lg:w-[120%] h-full lg:h-[120%] lg:-left-[10%] lg:-top-[10%] object-cover object-center lg:object-left blur-[1px]"
           >
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260330_145725_08886141-ed95-4a8e-8d6d-b75eaadce638.mp4" type="video/mp4" />
@@ -368,7 +374,6 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
               <span className="text-[9px] sm:text-[10px] font-bold text-emerald-500 uppercase tracking-[0.4em] sm:tracking-[0.5em] mb-6 sm:mb-8 lg:mb-10 block">{t('The Process')}</span>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-medium text-white tracking-tight max-w-3xl leading-[1.1]">{t('Set it once. Dominate forever.')}</h2>
             </div>
-
             <div className="grid md:grid-cols-4 gap-12 lg:gap-8">
               {[
                 { step: '01', title: 'Connect', desc: 'Link your Binance Square account via API keys securely stored in our Vault.' },
@@ -393,16 +398,77 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
           </div>
         </section>
 
+      {/* AI Citability FAQ Section */}
+      <section id="faq" className="relative py-16 lg:py-24 px-6 lg:px-10 border-t border-white/5 bg-[#0A0A0A]">
+        <div className="max-w-screen-xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+            <div>
+              <span className="text-[9px] sm:text-[10px] font-bold text-emerald-500 uppercase tracking-[0.4em] sm:tracking-[0.5em] mb-6 sm:mb-8 block">{t('FAQ')}</span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-medium text-white tracking-tight mb-8">What is Sato?</h2>
+              <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-light mb-12">
+                Sato is an automated publishing engine designed specifically for crypto KOLs to distribute real-time market insights on Binance Square. By leveraging generative AI and live trading signals, it acts as a continuous digital twin that organically grows your crypto following without any manual daily effort.
+              </p>
+
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-6">Core Definitions</h3>
+              <dl className="space-y-6">
+                <div>
+                  <dt className="text-base font-medium text-white mb-2">Automated Publishing Engine</dt>
+                  <dd className="text-sm text-zinc-400 leading-relaxed font-light">A software system that autonomously schedules, formats, and publishes content to social platforms without requiring human intervention for each post.</dd>
+                </div>
+                <div>
+                  <dt className="text-base font-medium text-white mb-2">Crypto KOL (Key Opinion Leader)</dt>
+                  <dd className="text-sm text-zinc-400 leading-relaxed font-light">An influential figure in the cryptocurrency industry whose market analyses and opinions significantly impact audience trading behavior.</dd>
+                </div>
+                <div>
+                  <dt className="text-base font-medium text-white mb-2">AI Persona Mapping</dt>
+                  <dd className="text-sm text-zinc-400 leading-relaxed font-light">The process of configuring a language model to perfectly mimic an individual's unique tone, vocabulary, and analytical style.</dd>
+                </div>
+              </dl>
+            </div>
+            <div className="lg:mt-16 bg-zinc-950/40 border border-white/5 rounded-sm p-8 backdrop-blur-sm">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-10 text-center">{t('Supported Ecosystems')}</h3>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-70">
+                <div className="flex flex-col items-center gap-4 hover:opacity-100 transition-opacity">
+                  <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
+                    <Database className="w-5 h-5 text-zinc-300" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold text-center">Binance API</span>
+                </div>
+                <div className="flex flex-col items-center gap-4 hover:opacity-100 transition-opacity">
+                  <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
+                    <Cpu className="w-5 h-5 text-zinc-300" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold text-center">OpenAI GPT-5.1</span>
+                </div>
+                <div className="flex flex-col items-center gap-4 hover:opacity-100 transition-opacity">
+                  <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
+                    <Sparkles className="w-5 h-5 text-zinc-300" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold text-center">Gemini 3 Pro</span>
+                </div>
+                <div className="flex flex-col items-center gap-4 hover:opacity-100 transition-opacity">
+                  <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
+                    <BrainCircuit className="w-5 h-5 text-zinc-300" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold text-center">Llama 3.3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing - Gold Coins & Green Lighting Background */}
       <section id="pricing" className="py-16 sm:py-24 lg:py-48 px-6 lg:px-10 border-t border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-50 mix-blend-screen flex items-center justify-center">
           <div className="absolute inset-0 bg-[#0A0A0A]/40 z-10" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-transparent to-[#0A0A0A] z-10" />
           <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
+            autoPlay={true} 
+            loop={true} 
+            muted={true} 
+            playsInline={true} 
             className="absolute inset-0 w-full h-full object-cover origin-center scale-[2] lg:scale-110 lg:origin-right blur-[2px]"
           >
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260325_094440_a3592600-bd1e-49e5-9bce-a73662061d83.mp4" type="video/mp4" />
@@ -471,10 +537,10 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 mix-blend-screen bg-[#0A0A0A]">
           <HlsVideo 
             src="https://stream.mux.com/tLkHO1qZoaaQOUeVWo8hEBeGQfySP02EPS02BmnNFyXys.m3u8"
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
+            autoPlay={true} 
+            loop={true} 
+            muted={true} 
+            playsInline={true} 
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] z-10" />
