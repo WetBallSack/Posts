@@ -1,20 +1,44 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Sato: The AI Content Engine for Crypto Content Creators
 
-# Run and deploy your AI Studio app
+Sato is an advanced AI-powered publishing assistant designed specifically for crypto content creators to streamline their Binance Square presence. By acting as a digital twin, Sato fetches live market data and processes it through customized AI personas to help generate and publish highly engaging, insight-driven posts around the clock.
 
-This contains everything you need to run your app locally.
+**Live App:** [https://sato.auraplot.site/](https://sato.auraplot.site/)
 
-View your app in AI Studio: https://ai.studio/apps/ef401607-e36d-4230-8cee-d9ff2db0a711
+## 🧠 About the Project
+It combines:
+- Custom AI Persona Mapping
+- Real-time market data ingestion
+- Native EN/CN crypto terminology translation
 
-## Run Locally
+→ Powered by Advanced AI Models
 
-**Prerequisites:**  Node.js
+## 💯 Why does it matter?
+It helps you solve:
+- Global timezone coverage (reach audiences while you sleep)
+- Content idea depletion
+- Constant chart monitoring to capture sudden market movements
+- Language barriers between different crypto markets
 
+And gives you the leverage to organically compound your audience reach seamlessly.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## ✨ Features & Capabilities
+
+✔ **AI Persona Mapping**  
+Configures industry-leading LLMs to perfectly mimic your unique tone, writing style, and vocabulary.
+
+✔ **Real-Time Market Analysis & Charts**  
+Pulls live market data to generate insightful commentary backed by dynamic pricing charts.
+
+✔ **Bilingual Crypto Native Output**  
+Flawless English ↔ Chinese translation that understands and preserves complex crypto terminology.
+
+✔ **Continuous Publishing Engine**  
+Flexible scheduling—set your intervals and let Sato format and distribute your content to Binance Square smoothly.
+
+## ⚠️ Disclaimer
+Sato is a professional content management tool.
+It is **not a financial advisory service**, **not a trading bot**, and is **not officially affiliated with or endorsed by Binance**.
+
+## ❓ Questions?
+Have questions or want to learn more about the project?
+Feel free to open an issue or reach out!
