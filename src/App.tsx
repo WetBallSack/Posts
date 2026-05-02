@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { supabase } from './lib/supabase';
 import LandingPage from './components/LandingPage';
 import LegalPages from './components/LegalPages';
+import TutorialPage from './components/TutorialPage';
 import { 
   SlidersHorizontal, 
   Layout, 
@@ -41,6 +42,7 @@ export default function App() {
   const [password, setPassword] = useState('');
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
   const [legalView, setLegalView] = useState<'about' | 'privacy' | 'terms' | 'contact' | null>(null);
 
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
@@ -512,6 +514,10 @@ export default function App() {
     );
   };
 
+  if (showTutorial) {
+    return <TutorialPage onBack={() => setShowTutorial(false)} />;
+  }
+
   if (!session) {
     if (legalView) {
       return <LegalPages type={legalView} onBack={() => setLegalView(null)} />;
@@ -523,6 +529,7 @@ export default function App() {
           onGetStarted={() => setShowLogin(true)} 
           onLogin={() => setShowLogin(true)} 
           onLegalClick={(type) => setLegalView(type)}
+          onTutorialClick={() => setShowTutorial(true)}
         />
       );
     }
@@ -758,12 +765,21 @@ export default function App() {
               </header>
 
               <div className="bg-white border border-[#EAE5DF] rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-                <div className="p-8 border-b border-[#EAE5DF] bg-[#FBFBF9]">
-                  <h2 className="font-serif text-2xl text-[#2D2B2A] flex items-center gap-3">
-                    <ShieldCheck className="w-5 h-5 text-[#7A7571]" strokeWidth={1.5} />
-                    {t('API Keys')}
-                  </h2>
-                  <p className="text-sm text-[#7A7571] mt-2 leading-relaxed">{t('Your keys are encrypted and stored securely in Supabase Vault. Enter a new key to overwrite the existing one.')}</p>
+                <div className="p-8 border-b border-[#EAE5DF] bg-[#FBFBF9] flex items-start justify-between flex-wrap gap-4">
+                  <div>
+                    <h2 className="font-serif text-2xl text-[#2D2B2A] flex items-center gap-3">
+                      <ShieldCheck className="w-5 h-5 text-[#7A7571]" strokeWidth={1.5} />
+                      {t('API Keys')}
+                    </h2>
+                    <p className="text-sm text-[#7A7571] mt-2 leading-relaxed">{t('Your keys are encrypted and stored securely in Supabase Vault. Enter a new key to overwrite the existing one.')}</p>
+                  </div>
+                  <button 
+                    onClick={() => setShowTutorial(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-[#2D2B2A] text-white rounded-lg text-sm font-medium hover:bg-[#1A1918] transition-colors"
+                  >
+                    <Info className="w-4 h-4" />
+                    {t('How to get keys')}
+                  </button>
                 </div>
                 <div className="p-8 space-y-6">
                   <div>

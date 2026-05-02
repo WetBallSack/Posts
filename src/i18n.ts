@@ -208,7 +208,26 @@ const resources = {
       "Visual Output": "Visual Output",
       "Text Only": "Text Only",
       "Dynamic Pricing Charts": "Dynamic Pricing Charts",
-      "Supported Ecosystems": "Supported Ecosystems"
+      "Supported Ecosystems": "Supported Ecosystems",
+      "Guide": "Guide",
+      "How to Obtain Your API Keys": "How to Obtain Your API Keys",
+      "Follow these step-by-step instructions to get the necessary API keys for Binance Square and your preferred AI language models.": "Follow these step-by-step instructions to get the necessary API keys for Binance Square and your preferred AI language models.",
+      "API Key Guide": "API Key Guide",
+      "How to get keys": "How to get keys",
+      "Groq (Llama 3) API Key": "Groq (Llama 3) API Key",
+      "OpenAI API Key (GPT-5.1)": "OpenAI API Key (GPT-5.1)",
+      "Google Gemini API Key": "Google Gemini API Key",
+      "For lightning-fast generation using Llama 3 models on Groq.": "For lightning-fast generation using Llama 3 models on Groq.",
+      "Required if you plan to use OpenAI models for content generation.": "Required if you plan to use OpenAI models for content generation.",
+      "Required to access Gemini 2.x and 3.x generation models.": "Required to access Gemini 2.x and 3.x generation models.",
+      "Sato needs a Binance Square API key to post on your behalf. Since this is only a posting API key, no security verification is involved.": "Sato needs a Binance Square API key to post on your behalf. Since this is only a posting API key, no security verification is involved.",
+      "Log in to Binance and navigate to the": "Log in to Binance and navigate to the",
+      "Binance Square Creator Center": "Binance Square Creator Center",
+      "Look for the API or Integration settings specific to Binance Square.": "Look for the API or Integration settings specific to Binance Square.",
+      "Generate a new API Key for posting.": "Generate a new API Key for posting.",
+      "Copy the": "Copy the",
+      "API Key": "API Key",
+      "Save it in a secure place.": "Save it in a secure place."
     }
   },
   zh: {
@@ -417,7 +436,26 @@ const resources = {
       "Visual Output": "视觉输出",
       "Text Only": "纯文本",
       "Dynamic Pricing Charts": "动态价格图表",
-      "Supported Ecosystems": "支持的生态系统"
+      "Supported Ecosystems": "支持的生态系统",
+      "Guide": "指南",
+      "How to Obtain Your API Keys": "如何获取 API 密钥",
+      "Follow these step-by-step instructions to get the necessary API keys for Binance Square and your preferred AI language models.": "请按照这些分步说明获取币安广场和您偏好的 AI 语言模型所需的 API 密钥。",
+      "API Key Guide": "API 密钥指南",
+      "How to get keys": "如何获取密钥",
+      "Groq (Llama 3) API Key": "Groq (Llama 3) API 密钥",
+      "OpenAI API Key (GPT-5.1)": "OpenAI API 密钥 (GPT-5.1)",
+      "Google Gemini API Key": "Google Gemini API 密钥",
+      "For lightning-fast generation using Llama 3 models on Groq.": "用于在 Groq 上使用 Llama 3 模型进行极速生成。",
+      "Required if you plan to use OpenAI models for content generation.": "如果您计划使用 OpenAI 模型生成内容，则需要此密钥。",
+      "Required to access Gemini 2.x and 3.x generation models.": "访问 Gemini 2.x 和 3.x 生成模型所必需的。",
+      "Sato needs a Binance Square API key to post on your behalf. Since this is only a posting API key, no security verification is involved.": "Sato 需要币安广场 API 密钥以代表您发帖。由于这仅是用于发帖的 API 密钥，因此不涉及安全验证。",
+      "Log in to Binance and navigate to the": "登录币安并转到",
+      "Binance Square Creator Center": "币安广场创作者中心",
+      "Look for the API or Integration settings specific to Binance Square.": "找到针对币安广场的 API 或集成设置。",
+      "Generate a new API Key for posting.": "生成一个新的发帖 API 密钥。",
+      "Copy the": "复制",
+      "API Key": "API 密钥",
+      "Save it in a secure place.": "将其保存在安全的地方。"
     }
   }
 };

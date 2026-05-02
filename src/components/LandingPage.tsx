@@ -25,9 +25,10 @@ interface LandingPageProps {
   onGetStarted: () => void;
   onLogin: () => void;
   onLegalClick: (type: 'about' | 'privacy' | 'terms' | 'contact') => void;
+  onTutorialClick: () => void;
 }
 
-export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: LandingPageProps) {
+export default function LandingPage({ onGetStarted, onLogin, onLegalClick, onTutorialClick }: LandingPageProps) {
   const { t, i18n } = useTranslation();
 
   const fadeIn = {
@@ -564,6 +565,7 @@ export default function LandingPage({ onGetStarted, onLogin, onLegalClick }: Lan
               <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8 text-[10px] sm:text-[11px] font-bold text-emerald-500/70 uppercase tracking-widest">
                 <a href="#features" className="hover:text-emerald-400 transition-colors">{t('Features')}</a>
                 <a href="#pricing" className="hover:text-emerald-400 transition-colors">{t('Pricing')}</a>
+                <button onClick={onTutorialClick} className="text-left w-full hover:text-emerald-400 transition-colors uppercase">{t('API Key Guide')}</button>
               </div>
             </div>
             <div className="lg:col-span-3 min-w-0">
